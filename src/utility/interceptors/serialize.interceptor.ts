@@ -4,7 +4,7 @@ import {
   CallHandler,
   UseInterceptors,
 } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -19,7 +19,7 @@ export class SerializeInterceptor implements NestInterceptor {
     const now = Date.now();
     return next.handle().pipe(
       map((data: any) => {
-        return plainToClass(this.dto, data, { exposeUnsetFields: true });
+        return plainToInstance(this.dto, data, { exposeUnsetFields: true });
       }),
     );
   }

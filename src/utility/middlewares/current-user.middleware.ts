@@ -6,6 +6,7 @@ import { UsersService } from 'src/users/users.service';
 import { UserEntity } from 'src/users/entities/user.entity';
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       currentUser?: UserEntity;
@@ -32,6 +33,8 @@ export class CurrentUserMiddleware implements NestMiddleware {
         const { id } = <JwtPayload>(
           verify(token, process.env.ACCESS_TOKEN_SECRET_KEY)
         );
+        // const payload = verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+        // const id = payload['id'];
         const currentUser = await this.usersService.findOne(+id);
         req.currentUser = currentUser;
         next();
